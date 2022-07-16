@@ -4,7 +4,7 @@ from os.path import join
 import pandas as pd
 import numpy as np
 import re
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -40,6 +40,8 @@ def uploadFiles():
         #print(raw_data)
         df = dataPreProcessing(raw_data)
         dataStats(df)
+        plt.plot(df['HeartRate'])
+        plt.savefig('static/files/plot.png')
       return redirect(url_for('index'))
 
 def dataPreProcessing(raw_data, filter_threshold = 1):
