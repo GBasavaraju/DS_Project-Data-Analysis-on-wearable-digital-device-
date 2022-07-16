@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 from os.path import join
 import pandas as pd
@@ -66,8 +66,9 @@ def dataStats(dataset):
     relaxVal = dataset[dataset['HeartRate'].between(50, 100, inclusive=True)]
     relax = len(relaxVal['HeartRate'])/length*100
     SPO2 = dataset['SPO_Values'].max()
-    # print(round(average), round(VO2Max,2), round(fatBurn,2), round(relax,2), SPO2)
-    return round(average), round(VO2Max,2), round(fatBurn,2), round(relax,2), SPO2
+    returnData = {'Avg HR': round(average), 'HRMax_%': round(VO2Max,2), 'FatBurn_%': round(fatBurn,2), 'Relax%': round(relax,2), 'SPO2': SPO2 }
+    #print(returnData)
+    return jsonify(returnData)
 
 #ToDO: part of preprocessing, adapt according to Daniel's work
 def get_number(text):
