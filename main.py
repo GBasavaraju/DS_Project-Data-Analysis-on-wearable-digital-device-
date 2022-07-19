@@ -38,6 +38,23 @@ def users():
         data.append(list(row))
     return json.dumps(data)
 
+@app.route("/runs")
+def runs():
+    conn = get_db_connection()
+    runs = conn.execute("SELECT id, run_id, activity FROM health ORDER BY id ")
+    data = []
+    for row in runs:
+        data.append(list(row))
+    return json.dumps(data)
+
+@app.route("/healthdata")
+def healthdata():
+    conn = get_db_connection()
+    healthdata = conn.execute("SELECT id, run_id, heart_rate, spo2 FROM health ORDER BY id ")
+    data = []
+    for row in healthdata:
+        data.append(list(row))
+    return json.dumps(data)
 
 @app.route("/health")
 def health():
