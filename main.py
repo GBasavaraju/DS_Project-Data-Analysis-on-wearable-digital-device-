@@ -14,6 +14,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'static/files'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 # Root URL
 @app.route('/')
 def index():
@@ -38,6 +39,7 @@ def users():
         data.append(list(row))
     return json.dumps(data)
 
+
 @app.route("/runs")
 def runs():
     conn = get_db_connection()
@@ -47,6 +49,7 @@ def runs():
         data.append(list(row))
     return json.dumps(data)
 
+
 @app.route("/healthdata")
 def healthdata():
     conn = get_db_connection()
@@ -55,6 +58,7 @@ def healthdata():
     for row in healthdata:
         data.append(list(row))
     return json.dumps(data)
+
 
 @app.route("/health")
 def health():
@@ -74,6 +78,7 @@ def health():
         data.append(list(row))
     return json.dumps(data)
 
+
 # call like /healthbyparam?user_name=divesh&run_id=1&activity=sleeping
 @app.route("/healthbyparam")
 def healthbyparam():
@@ -81,7 +86,8 @@ def healthbyparam():
     activity = request.args.get('activity', '')
     run_id = request.args.get('run_id', '')
     conn = get_db_connection()
-    sql = "SELECT user_name, activity, run_id, heart_rate, spo2  FROM health WHERE user_name = '%s' AND activity = '%s' AND run_id = %d" % (user_name, activity, int(run_id))
+    sql = "SELECT user_name, activity, run_id, heart_rate, spo2  FROM health WHERE user_name = '%s' AND activity = '%s' AND run_id = %d" % (
+        user_name, activity, int(run_id))
     print(sql)
     health = conn.execute(sql).fetchall()
 
@@ -92,12 +98,22 @@ def healthbyparam():
     return json.dumps(data)
 
 
-def fill_data(data, user_name='divesh', activity='sleeping', run_id=1):
+# To retrieve the last data row
+def last_data():
+    db = get_db_connection()
+    last_row = db.execute("SELECT * FROM health ORDER BY id DESC LIMIT 1").fetchone()
+    db.close()
+    return int(last_row[4])  # returns the last value of run id column
+
+
+def fill_data(data, user_name='divesh', activity='sleeping'):
     print(data.shape)
     a = np.array(data['HeartRate'].values.tolist())
     b = np.array(data['SPO_Values'].values.tolist())
+    run_id = last_data() + 1
     for i in range(a.size):
-        sql = "INSERT INTO health (heart_rate,spo2,run_id,activity,user_name) VALUES(%d, %d, %d,'%s','%s')" % (int(a[i]), int(b[i]), int(run_id),activity,user_name)
+        sql = "INSERT INTO health (heart_rate,spo2,run_id,activity,user_name) VALUES(%d, %d, %d,'%s','%s')" % (
+            int(a[i]), int(b[i]), run_id, activity, user_name)
         db = get_db_connection()
         db.execute(sql)
         db.commit()
@@ -108,7 +124,6 @@ def fill_data(data, user_name='divesh', activity='sleeping', run_id=1):
 def uploadFiles():
     user_name = request.form.get('user_name', '')
     activity = request.form.get('activity', '')
-    run_id = 1
     # get the uploaded file
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
@@ -120,7 +135,7 @@ def uploadFiles():
         raw_data = raw_data.readlines()
         # print(raw_data)
         df = dataPreProcessing(raw_data)
-        fill_data(df, user_name, activity, run_id)
+        fill_data(df, user_name, activity)
         dataStats(df)
         plt.plot(df['HeartRate'])
         plt.savefig('static/files/plot.png')
