@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    min-height: 100vh;
+}
 
 .heart-icon {
     animation: pulse 1s infinite;
@@ -9,15 +12,42 @@
 }
 
 @keyframes pulse {
-	0% {
-		transform: scale(0.90);
-	}
+    0% {
+        transform: scale(0.90);
+    }
 
-	80% {
-		transform: scale(1);
-	}
+    80% {
+        transform: scale(1);
+    }
 
-	100% {
-		transform: scale(0.98);
-	}
+    100% {
+        transform: scale(0.98);
+    }
+}
+
+.horizontal-center {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.center {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.graphs {
+    padding: 10px;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.graphs .card {
+    flex-basis: 400px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    
 }

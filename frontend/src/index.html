@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -10,13 +10,14 @@
 </head>
 
 <body>
+
     <!-- Navbar -->
     <div class="navbar">
         <div class="flex-1">
             <a class="btn btn-ghost normal-case text-xl">Health Monitor</a>
         </div>
         <div class="flex-none">
-            <div class="flex px-5 items-center hidden">
+            <div class="flex px-5 items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dark:text-gray-100" viewBox="0 0 20 20"
                     fill="currentColor">
                     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
@@ -51,51 +52,96 @@
             </div>
         </div>
     </div>
-    <main id="content" class="dark:bg-slate-700">
-        <!-- Heart Rate and SpO2 card -->
-        <section class="flex p-10 justify-center">
-            <div class="stats shadow-md">
-                <div class="stat">
-                    <div class="stat-figure text-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 heart-icon" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
-                          </svg>
+    <main id="content" class="h-full bg-slate-300 dark:bg-slate-700">
+        <div class="horizontal-center flex flex-col md:flex-row w-full justify-center items-center">
+            <section class="w-5/12 p-5">
+                <div class="w-3/4 horizontal-center bg-base-100 rounded-box my-2 p-2" id="activity-selection">
+                    <div class="dropdown dropdown-end flex justify-evenly" id="activity-selection-dropdown">
+                        <span class="text self-center">Activity:</span>
+                        <label tabindex="0" class="btn m-1 dropdown-label normal-case w-6/12">Please select...
+                        </label>
+                        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li>
+                                <label class="label cursor-pointer">
+                                    <span class="label-text">Idle</span>
+                                    <input type="checkbox" checked="checked" class="checkbox" value="idle" />
+                                </label>
+                            </li>
+                            <li>
+                                <label class="label cursor-pointer">
+                                    <span class="label-text">Jogging</span>
+                                    <input type="checkbox" class="checkbox" value="jogging" />
+                                </label>
+                            </li>
+                            <li>
+                                <label class="label cursor-pointer">
+                                    <span class="label-text">Exercise</span>
+                                    <input type="checkbox" class="checkbox" value="exercise" />
+                                </label>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="stat-title">Heart Rate</div>
-                    <div class="stat-value text-primary">77</div>
+                    <div class="flex justify-evenly">
+                        <label class="label">
+                            <span class="label-text">User:</span>
+                        </label>
+                        <select class="select select-bordered w-52 p-2" id="user-selection-dropdown" required>
+
+                        </select>
+                    </div>
+                    <div class="flex justify-center mt-5">
+                        <button class="btn btn-success btn-sm" type="submit">Submit</button>
+                    </div>
                 </div>
-                <div class="stat">
-                    <div class="stat-title">Oxygen Saturation</div>
-                    <div class="stat-value text-primary">96%</div>
+            </section>
+            <!-- Heart Rate and SpO2 card -->
+            <section class="flex flex-col justify-center w-5/12 p-5" id="dashboard">
+                <div class="stats stats-horizontal shadow-md my-2">
+                    <div class="stat" id="hr-stat">
+                        <div class="stat-figure text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 heart-icon"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="stat-title">Heart Rate</div>
+                        <div class="stat-value text-primary">77</div>
+                    </div>
+                    <div class="stat" id="spo2-stat">
+                        <div class="stat-title">Oxygen Saturation</div>
+                        <div class="stat-value text-primary">96%</div>
+                    </div>
+                </div>
+                <div class="stats stats-horizontal shadow-md my-2">
+                    <div class="stat" id="hr-max-stat">
+                        <div class="stat-title">HR Max %</div>
+                        <div class="stat-value text-primary">96%</div>
+                    </div>
+                    <div class="stat" id="fat-burn-stat">
+                        <div class="stat-title">Fat Burn %</div>
+                        <div class="stat-value text-primary">96%</div>
+                    </div>
+                    <div class="stat" id="relax-stat">
+                        <div class="stat-title">Relax %</div>
+                        <div class="stat-value text-primary">96%</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="graphs horizontal-center flex flex-col lg:flex-row w-full md:w-10/12">
+            <!-- Heart Rate Graph -->
+            <div class="card w-96 bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <canvas id="hr-canvas" class="w-full sm:center"></canvas>
                 </div>
             </div>
-        </section>
-        <section>
-            <!-- Heart Rate Daily graph -->
-            <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-md">
-                <div class="collapse-title text-lg font-medium">
-                    Heart Rate
-                </div>
-                <div class="collapse-content">
-                    <canvas id="heart-rate-graph" width="400" height="400"></canvas>
-                </div>
-            </div>
-            <!-- SpO2 Daily graph -->
-            <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-md">
-                <div class="collapse-title text-lg font-medium">
-                    Oxygen Saturation
-                </div>
-                <div class="collapse-content">
-                    <canvas id="sp02-graph" width="400" height="400"></canvas>
-                </div>
-            </div>
-            <!-- Sleep Analysis -->
-            <div tabindex="0" class="collapse collapse-arrow  border border-base-300 bg-base-100 rounded-md">
-                <div class="collapse-title text-lg font-medium">
-                    Sleep Analysis
-                </div>
-                <div class="collapse-content">
-                    <canvas id="sleep-graph" width="400" height="400"></canvas>
+            <!-- SPO2 graph -->
+            <div class="card w-96 bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <canvas id="spo2-canvas" class="w-full sm:center"></canvas>
                 </div>
             </div>
         </section>
@@ -107,21 +153,55 @@
     <div class="modal" id="data-upload-modal">
         <div class="modal-box relative">
             <h3 class="font-bold text-lg my-3">Upload a CSV file</h3>
-            <label class="btn bg-transparent border-2 dark:border-gray-50 border-dashed px-10 py-3 flex-col block h-1/2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block m-auto" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
-                    <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
-                  </svg>
-                <span class="text-center text-sm">Please choose a file</span>
-                <input id="data-upload-input" type="file" accept=".csv" hidden>
-            </label>
-            <div class="modal-action">
-                <button class="btn btn-sm btn-ghost modal-cancel-btn">Cancel</button>
-                <button class="btn btn-sm btn-success modal-success-btn">Upload</button>
+            <div class="alert alert-error shadow-lg my-3 hidden">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="alert-message">Error! Task failed successfully.</span>
+                </div>
             </div>
+            <form id="data-upload-form">
+                <label
+                    class="btn bg-transparent border-2 dark:border-gray-50 border-dashed px-10 py-3 flex-col block h-1/2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block m-auto" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path
+                            d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
+                        <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
+                    </svg>
+                    <span class="modal-message text-center text-sm">Please choose a file</span>
+                    <input id="data-upload-input" type="file" accept=".csv" hidden required>
+                </label>
+                <div class="flex gap-1">
+                    <div class="form-control w-6/12 max-w-xs p-1">
+                        <label class="label">
+                            <span class="label-text">Choose User:</span>
+                        </label>
+                        <select class="select select-bordered" id="data-upload-user" required>
+
+                        </select>
+                    </div>
+                    <div class="form-control w-6/12 max-w-xs p-1">
+                        <label class="label">
+                            <span class="label-text">Choose Activity:</span>
+                        </label>
+                        <select class="select select-bordered" id="data-upload-activity" required>
+                            <option value="idle">Idle</option>
+                            <option value="jogging">Jogging</option>
+                            <option value="exercise">Exercise</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-action">
+                    <button class="btn btn-sm btn-ghost modal-cancel-btn" type="reset">Cancel</button>
+                    <button class="btn btn-sm btn-success modal-success-btn">Upload</button>
+                </div>
+            </form>
         </div>
     </div>
-
 
     <script type="module" src="./js/index.js"></script>
 </body>
