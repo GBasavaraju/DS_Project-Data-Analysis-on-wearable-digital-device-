@@ -103,7 +103,10 @@ def last_data():
     db = get_db_connection()
     last_row = db.execute("SELECT * FROM health ORDER BY id DESC LIMIT 1").fetchone()
     db.close()
-    return int(last_row[4])  # returns the last value of run id column
+    if last_row is None:
+        return 0
+    else:
+        return int(last_row[4])  # returns the last value of run id column
 
 
 def fill_data(data, user_name='divesh', activity='sleeping'):
