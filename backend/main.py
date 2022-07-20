@@ -123,7 +123,7 @@ def fill_data(data, user_name='divesh', activity='sleeping'):
     return 'success'
 
 
-@app.route("/", methods=['POST'])
+@app.route("/upload", methods=['POST'])
 def uploadFiles():
     user_name = request.form.get('user_name', '')
     activity = request.form.get('activity', '')
