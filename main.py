@@ -1,6 +1,7 @@
 import json
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify, Response
+from flask_cors import CORS
 import os
 from os.path import join
 import pandas as pd
@@ -10,6 +11,7 @@ import matplotlib.pyplot as plt
 import sqlite3
 
 app = Flask(__name__)
+CORS(app)
 
 UPLOAD_FOLDER = 'static/files'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -84,10 +86,8 @@ def health():
 def healthbyparam():
     user_name = request.args.get('user_name', '')
     activity = request.args.get('activity', '')
-    run_id = request.args.get('run_id', '')
     conn = get_db_connection()
-    sql = "SELECT user_name, activity, run_id, heart_rate, spo2  FROM health WHERE user_name = '%s' AND activity = '%s' AND run_id = %d" % (
-        user_name, activity, int(run_id))
+    sql = "SELECT *  FROM health WHERE user_name = '%s' AND activity = '%s'" % (user_name, activity)
     print(sql)
     health = conn.execute(sql).fetchall()
 
@@ -114,12 +114,12 @@ def fill_data(data, user_name='divesh', activity='sleeping'):
     a = np.array(data['HeartRate'].values.tolist())
     b = np.array(data['SPO_Values'].values.tolist())
     run_id = last_data() + 1
+    db = get_db_connection()
     for i in range(a.size):
         sql = "INSERT INTO health (heart_rate,spo2,run_id,activity,user_name) VALUES(%d, %d, %d,'%s','%s')" % (
             int(a[i]), int(b[i]), run_id, activity, user_name)
-        db = get_db_connection()
         db.execute(sql)
-        db.commit()
+    db.commit()
     return 'success'
 
 
@@ -139,10 +139,11 @@ def uploadFiles():
         # print(raw_data)
         df = dataPreProcessing(raw_data)
         fill_data(df, user_name, activity)
-        dataStats(df)
-        plt.plot(df['HeartRate'])
-        plt.savefig('static/files/plot.png')
-    return redirect(url_for('index'))
+        response = dataStats(df)
+        return response
+
+    response = jsonify({'Error': 'No file uploaded'})
+    return response, 400
 
 
 def dataPreProcessing(raw_data, filter_threshold=1):
