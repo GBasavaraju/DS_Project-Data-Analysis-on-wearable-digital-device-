@@ -1,5 +1,7 @@
 import { switch_to_lighttheme, switch_to_darktheme, AlertMessage, Select } from './utils';
 import api from './api';
+import { set_stats } from './dashboard';
+import { set_graph_data } from './heart_rate';
 
 function switch_theme(event) {
     if (event.target.checked) {
@@ -20,6 +22,7 @@ class DataUploadModal {
         this.form = this.modal.getElementsByTagName('form')[0];
         this.file_input = document.getElementById(file_input_id);
         this.activity_input = document.getElementById(activity_input_id);
+        this.progress_bar = this.modal.getElementsByTagName('progress')[0];
         
         this.error_alert = new AlertMessage(this.modal.getElementsByClassName('alert-error')[0]);
 
@@ -53,7 +56,7 @@ class DataUploadModal {
     }
 
     open() {
-        this.modal.classList.add('modal-open')
+        this.modal.classList.add('modal-open');
     }
 
     toggle() {
@@ -64,22 +67,18 @@ class DataUploadModal {
         }
     }
 
-    upload_success(response) {
-        this.close();
-    }
-
-    upload_failure(response) {
-        this.error_alert.show_alert('Something went wrong!');
-    }
-
-    success(event) {
+    async success(event) {
         event.preventDefault();
         
         if (this.form.checkValidity()) {
-            api.upload_file(this.file_input.files[0], this.user_input.get_value(),
-                            this.activity_input.value ,
-                            (response) => this.upload_success(response), 
-                            (response) => this.upload_failure(response));
+            this.progress_bar.classList.remove('hidden');
+            const stat_data = await api.upload_file(this.file_input.files[0], this.user_input.get_value(),
+                            this.activity_input.value).catch(() => this.error_alert.show_alert('Required inputs are missing'));
+                            const health_data = await api.load_graph_data();
+            this.progress_bar.classList.add('hidden');
+            set_stats(stat_data);
+            set_graph_data(health_data);
+            this.close();
         } else {
             this.error_alert.show_alert('Required inputs are missing');
         }

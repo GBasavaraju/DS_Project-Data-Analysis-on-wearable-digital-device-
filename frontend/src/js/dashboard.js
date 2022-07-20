@@ -3,12 +3,14 @@ import { MultiSelectDropdown, Select } from './utils';
 import { set_graph_data } from './heart_rate';
 
 
+var dashboard = null;
+
 class Dashboard {
     LABELS_TO_IDS = { 'Avg HR': 'hr-stat', 'HRMax_%': 'hr-max-stat', 'FatBurn_%': 'fat-burn-stat', 'Relax%': 'relax-stat', 'SPO2': 'spo2-stat' };
     constructor(dashboard_id) {
         this.dashboard = document.getElementById(dashboard_id);
         this._initialise_stats();
-        this._load_stats();
+        // this._load_stats();
     }
 
     _initialise_stats() {
@@ -21,10 +23,10 @@ class Dashboard {
 
     async _load_stats() {
         const data = await api.load_dashboard().catch(() => { });
-        this._display_stats(data);
+        this.display_stats(data);
     }
 
-    _display_stats(data) {
+    display_stats(data) {
         for (const [key, value] of Object.entries(data)) {
             this.stats[key].textContent = value;
         }
@@ -63,7 +65,11 @@ class ActivityUserSelection {
 
 
 export function initialise_dashboard() {
-    const dashboard = new Dashboard('dashboard');
+    dashboard = new Dashboard('dashboard');
     const activity_selection = new ActivityUserSelection('activity-selection',
         'activity-selection-dropdown', 'user-selection-dropdown');
+}
+
+export function set_stats(data) {
+    dashboard.display_stats(data);
 }

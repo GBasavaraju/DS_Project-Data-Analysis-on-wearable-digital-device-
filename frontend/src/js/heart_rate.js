@@ -78,8 +78,16 @@ class Graphs {
                 },
                 scales: {
                     y : {
-                        suggestedMin: 90
+                        suggestedMin: 85
                     }
+                },
+                elements: {
+                    point : {
+                        radius: 0
+                    }
+                },
+                interaction: {
+                    intersect: false
                 }
             }
         });
@@ -102,40 +110,20 @@ class Graphs {
                         display: true,
                         text: 'Heart Rate',
                         padding: 30
-                    },
-                    legend: {
-                        // labels: {
-                        //     filter: (item, data) => {
-                        //         if (item.text) {
-                        //             const previous_datasets = data.datasets.slice(0, item.datasetIndex);
-                        //             return previous_datasets.some((data) => data.label === item.text);
-                        //         } else {
-                        //             return false;
-                        //         }
-                                
-                        //     }
-                        // },
-                        // onClick: (e, legendItem, legend) => {
-                        //     const label = legendItem.text;
-                        //     const ci = legend.chart;
-                        //     ci.data.datasets.forEach((data, index) => {
-                        //         if (data.label === label) {
-                        //             if (ci.isDatasetVisible(index)) {
-                        //                 ci.hide(index);
-                        //                 legendItem.hidden = true;
-                        //             } else {
-                        //                 ci.show(index);
-                        //                 legendItem.hidden = false;
-                        //             }
-                        //         }
-                        //     });
-                        // }
                     }
                 },
                 scales: {
                     y : {
                         suggestedMin: 40
                     }
+                },
+                elements: {
+                    point : {
+                        radius: 0
+                    }
+                },
+                interaction: {
+                    intersect: false
                 }
             }
         });
@@ -169,7 +157,7 @@ class Graphs {
             return {
                 label: data.activity,
                 data: data.SPO2,
-                tension: 0.4,
+                tension: 0.1,
                 backgroundColor: color,
                 borderColor: color
             }
@@ -195,7 +183,7 @@ class Graphs {
     }
 
     async _load_data() {
-        const data = await api.load_graph_data().catch(() => { });
+        const data = await api.load_graph_data();
         this.set_data(data);
     }
 }

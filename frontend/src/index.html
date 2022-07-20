@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="cupcake">
 
 <head>
     <meta charset="UTF-8">
@@ -33,26 +33,9 @@
             <div class="px-5">
                 <button id="data-upload-modal-toggle" class="btn modal-button btn-primary btn-sm">Upload</button>
             </div>
-            <div class="dropdown dropdown-end">
-                <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-                    <div class="w-10 rounded-full">
-                        <img src="https://api.lorem.space/image/face?hash=33791" />
-                    </div>
-                </label>
-                <ul tabindex="0"
-                    class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                    <li>
-                        <a>
-                            Profile
-                        </a>
-                    </li>
-                    <li><a>Settings</a></li>
-                    <li><a>Logout</a></li>
-                </ul>
-            </div>
         </div>
     </div>
-    <main id="content" class="h-full bg-slate-300 dark:bg-slate-700">
+    <main id="content" class="bg-slate-300 dark:bg-slate-700">
         <div class="horizontal-center flex flex-col md:flex-row w-full justify-center items-center">
             <section class="w-5/12 p-5">
                 <div class="w-3/4 horizontal-center bg-base-100 rounded-box my-2 p-2" id="activity-selection">
@@ -107,44 +90,42 @@
                             </svg>
                         </div>
                         <div class="stat-title">Heart Rate</div>
-                        <div class="stat-value text-primary">77</div>
+                        <div class="stat-value text-primary">--</div>
                     </div>
                     <div class="stat" id="spo2-stat">
                         <div class="stat-title">Oxygen Saturation</div>
-                        <div class="stat-value text-primary">96%</div>
+                        <div class="stat-value text-primary">--</div>
                     </div>
                 </div>
                 <div class="stats stats-horizontal shadow-md my-2">
                     <div class="stat" id="hr-max-stat">
                         <div class="stat-title">HR Max %</div>
-                        <div class="stat-value text-primary">96%</div>
+                        <div class="stat-value text-primary">--</div>
                     </div>
                     <div class="stat" id="fat-burn-stat">
                         <div class="stat-title">Fat Burn %</div>
-                        <div class="stat-value text-primary">96%</div>
+                        <div class="stat-value text-primary">--</div>
                     </div>
                     <div class="stat" id="relax-stat">
                         <div class="stat-title">Relax %</div>
-                        <div class="stat-value text-primary">96%</div>
+                        <div class="stat-value text-primary">--</div>
                     </div>
                 </div>
             </section>
         </div>
 
-        <section class="graphs horizontal-center flex flex-col lg:flex-row w-full md:w-10/12">
-            <!-- Heart Rate Graph -->
-            <div class="card w-96 bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <canvas id="hr-canvas" class="w-full sm:center"></canvas>
-                </div>
+        <!-- Heart Rate Graph -->
+        <div class="card w-10/12 horizontal-center bg-base-100 shadow-xl my-2">
+            <div class="card-body">
+                <canvas id="hr-canvas" class="w-full sm:center"></canvas>
             </div>
-            <!-- SPO2 graph -->
-            <div class="card w-96 bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <canvas id="spo2-canvas" class="w-full sm:center"></canvas>
-                </div>
+        </div>
+        <!-- SPO2 graph -->
+        <div class="card w-10/12 horizontal-center bg-base-100 shadow-xl my-2">
+            <div class="card-body">
+                <canvas id="spo2-canvas" class="w-full sm:center"></canvas>
             </div>
-        </section>
+        </div>
 
     </main>
 
@@ -200,6 +181,7 @@
                     <button class="btn btn-sm btn-success modal-success-btn">Upload</button>
                 </div>
             </form>
+            <progress class="progress w-10/12 progress-primary hidden"></progress>
         </div>
     </div>
 
