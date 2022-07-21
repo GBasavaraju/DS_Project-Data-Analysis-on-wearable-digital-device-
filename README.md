@@ -5,10 +5,10 @@ This repository contains the project for coursework, Data Science. (Summer Semes
 Wellness: Data analytics based on wearable digital device
 
 ## Team 17
-Ganavi Basavaraju
-Daniel Hoff
-Suhas Gopal
-Mahima Acharya
+Ganavi Basavaraju;
+Daniel Hoff;
+Suhas Gopal;
+Mahima Acharya;
 Divesh Kumar
 
 ## About
