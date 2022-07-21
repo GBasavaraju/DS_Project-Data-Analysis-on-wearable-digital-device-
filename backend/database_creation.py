@@ -1,4 +1,6 @@
 
+#No need to run this file if the database is already created. Use the already created 'database.db' database
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import datetime
