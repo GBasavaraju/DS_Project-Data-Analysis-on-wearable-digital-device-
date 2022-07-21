@@ -30,7 +30,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-
+# shows all columns of users table
 @app.route("/users")
 def users():
     conn = get_db_connection()
@@ -41,7 +41,7 @@ def users():
         data.append(list(row))
     return json.dumps(data)
 
-
+# shows id, run_id, activity column of health table
 @app.route("/runs")
 def runs():
     conn = get_db_connection()
@@ -51,7 +51,7 @@ def runs():
         data.append(list(row))
     return json.dumps(data)
 
-
+# shows id, run_id, heart_rate, spo2 column of health table
 @app.route("/healthdata")
 def healthdata():
     conn = get_db_connection()
@@ -61,7 +61,7 @@ def healthdata():
         data.append(list(row))
     return json.dumps(data)
 
-
+#shows all columns of health table
 @app.route("/health")
 def health():
     user_name = request.args.get('user_name', '')
@@ -108,7 +108,7 @@ def last_data():
     else:
         return int(last_row[4])  # returns the last value of run id column
 
-
+# write the data into database
 def fill_data(data, user_name='divesh', activity='sleeping'):
     print(data.shape)
     a = np.array(data['HeartRate'].values.tolist())
@@ -122,7 +122,7 @@ def fill_data(data, user_name='divesh', activity='sleeping'):
     db.commit()
     return 'success'
 
-
+#upload the file and post it
 @app.route("/upload", methods=['POST'])
 def uploadFiles():
     user_name = request.form.get('user_name', '')
