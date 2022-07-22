@@ -74,6 +74,13 @@ class Graphs {
                         display: true,
                         text: 'Oxygen Saturation',
                         padding: 30
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems, data) {
+                                return '';
+                            },
+                        }
                     }
                 },
                 scales: {
@@ -110,6 +117,13 @@ class Graphs {
                         display: true,
                         text: 'Heart Rate',
                         padding: 30
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems, data) {
+                                return '';
+                            },
+                        }
                     }
                 },
                 scales: {

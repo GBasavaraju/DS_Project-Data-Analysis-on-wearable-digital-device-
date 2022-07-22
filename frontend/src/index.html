@@ -47,7 +47,7 @@
                             <li>
                                 <label class="label cursor-pointer">
                                     <span class="label-text">Idle</span>
-                                    <input type="checkbox" checked="checked" class="checkbox" value="idle" />
+                                    <input type="checkbox" class="checkbox" value="idle" />
                                 </label>
                             </li>
                             <li>
@@ -62,14 +62,20 @@
                                     <input type="checkbox" class="checkbox" value="exercise" />
                                 </label>
                             </li>
+                            <li>
+                                <label class="label cursor-pointer">
+                                    <span class="label-text">After Exercise</span>
+                                    <input type="checkbox" class="checkbox" value="after_exercise" />
+                                </label>
+                            </li>
                         </ul>
                     </div>
                     <div class="flex justify-evenly">
                         <label class="label">
                             <span class="label-text">User:</span>
                         </label>
-                        <select class="select select-bordered w-52 p-2" id="user-selection-dropdown" required>
-
+                        <select class="select select-bordered w-52" id="user-selection-dropdown" required>
+                            <option value="" disabled selected>Please select</option>
                         </select>
                     </div>
                     <div class="flex justify-center mt-5">
@@ -162,7 +168,7 @@
                             <span class="label-text">Choose User:</span>
                         </label>
                         <select class="select select-bordered" id="data-upload-user" required>
-
+                            <option value="" disabled selected>Please select</option>
                         </select>
                     </div>
                     <div class="form-control w-6/12 max-w-xs p-1">
@@ -170,9 +176,11 @@
                             <span class="label-text">Choose Activity:</span>
                         </label>
                         <select class="select select-bordered" id="data-upload-activity" required>
+                            <option value="" disabled selected>Please select</option>
                             <option value="idle">Idle</option>
                             <option value="jogging">Jogging</option>
                             <option value="exercise">Exercise</option>
+                            <option value="after_exercise">After Exercise</option>
                         </select>
                     </div>
                 </div>

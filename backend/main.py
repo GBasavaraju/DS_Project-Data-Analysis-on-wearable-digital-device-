@@ -85,9 +85,10 @@ def health():
 @app.route("/healthbyparam")
 def healthbyparam():
     user_name = request.args.get('user_name', '')
-    activity = request.args.get('activity', '')
+    activities = request.args.getlist('activity')
+    
     conn = get_db_connection()
-    sql = "SELECT *  FROM health WHERE user_name = '%s' AND activity = '%s'" % (user_name, activity)
+    sql = "SELECT *  FROM health WHERE user_name = '%s' AND (%s)" % (user_name, " OR ".join(["activity = '%s'" % activity for activity in activities]))
     print(sql)
     health = conn.execute(sql).fetchall()
 
